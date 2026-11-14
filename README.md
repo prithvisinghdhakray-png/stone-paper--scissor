@@ -1,73 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stone Paper Scissors</title>
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-
-int main()
-{
-    int user, computer;
-    int playerScore = 0, computerScore = 0;
-    char playAgain;
-
-    srand(time(0));
-
-    do
-    {
-        printf("\n--- STONE PAPER SCISSORS ---\n");
-        printf("1. Stone\n");
-        printf("2. Paper\n");
-        printf("3. Scissors\n");
-
-        printf("Enter your choice: ");
-        scanf("%d", &user);
-
-        if (user < 1 || user > 3)
-        {
-            printf("Invalid choice! Try again.\n");
-            continue;
+    <style>
+        body {
+            background: linear-gradient(135deg, #141e30, #243b55);
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 40px 15px;
         }
 
-        computer = rand() % 3 + 1;
-
-        printf("Computer choice: ");
-
-        if (computer == 1)
-            printf("Stone\n");
-        else if (computer == 2)
-            printf("Paper\n");
-        else
-            printf("Scissors\n");
-
-        if (user == computer)
-        {
-            printf("Match Draw!\n");
-        }
-        else if ((user == 1 && computer == 3) ||
-                 (user == 2 && computer == 1) ||
-                 (user == 3 && computer == 2))
-        {
-            printf("You Win!\n");
-            playerScore++;
-        }
-        else
-        {
-            printf("Computer Wins!\n");
-            computerScore++;
+        .game {
+            background: white;
+            color: #222;
+            max-width: 450px;
+            margin: auto;
+            padding: 30px 20px;
+            border-radius: 20px;
+            box-shadow: 0 5px 25px #0005;
         }
 
-        printf("\nYour Score: %d", playerScore);
-        printf("\nComputer Score: %d\n", computerScore);
+        h1 {
+            color: #243b55;
+        }
 
-        printf("\nPlay again? (y/n): ");
-        scanf(" %c", &playAgain);
+        .choices {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 25px 0;
+        }
 
-    } while (playAgain == 'y' || playAgain == 'Y');
+        button {
+            padding: 15px;
+            font-size: 18px;
+            border: none;
+            border-radius: 12px;
+            background: #243b55;
+            color: white;
+            cursor: pointer;
+        }
 
-    printf("\n--- FINAL SCORE ---\n");
-    printf("Your Score: %d\n", playerScore);
-    printf("Computer Score: %d\n", computerScore);
+        button:hover {
+            background: #426b99;
+            transform: scale(1.05);
+        }
 
-    printf("\nThanks for playing!\n");
+        #result {
+            font-size: 21px;
+            font-weight: bold;
+            margin: 20px;
+        }
 
-    return 0;
-}
+        #score {
+            font-size: 18px;
+            color: #243b55;
+        }
+
+        .reset {
+            background: #e74c3c;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="game">
+
+        <h1>✊ Stone Paper Scissors ✋</h1>
+        <p>Choose your move and beat the computer!</p>
+
+        <div class="choices">
+            <button onclick="play(1)">✊ Stone</button>
+            <button onclick="play(2)">✋ Paper</button>
+            <button onclick="play(3)">✌️ Scissors</button>
+        </div>
+
+        <h3 id="moves">Your move: - | Computer: -</h3>
+
+        <div id="result">Let's Play!</div>
+
+        <div id="score">
+            You: 0 | Computer: 0 | Draws: 0
+        </div>
+
+        <br>
+
+        <button class="reset" onclick="resetGame()">
+            Reset Game
+        </button>
+
+    </div>
+
+    <script>
+        let playerScore = 0;
+        let computerScore = 0;
+        let draws = 0;
+
+        const names = ["", "Stone", "Paper", "Scissors"];
+
+        function play(user) {
+
+            let computer = Math.floor(Math.random() * 3) + 1;
+
+            document.getElementById("moves").innerText =
+                "Your move: " + names[user] +
+                " | Computer: " + names[computer];
+
+            let result = "";
+
+            if (user === computer) {
+                result = "🤝 It's a Draw!";
+                draws++;
+            }
+            else if (
+                (user === 1 && computer === 3) ||
+                (user === 2 && computer === 1) ||
+                (user === 3 && computer === 2)
+            ) {
+                result = "🎉 You Won!";
+                playerScore++;
+            }
+            else {
+                result = "😢 Computer Won!";
+                computerScore++;
+            }
+
+            document.getElementById("result").innerText = result;
+
+            document.getElementById("score").innerText =
+                "You: " + playerScore +
+                " | Computer: " + computerScore +
+                " | Draws: " + draws;
+        }
+
+        function resetGame() {
+            playerScore = 0;
+            computerScore = 0;
+            draws = 0;
+
+            document.getElementById("moves").innerText =
+                "Your move: - | Computer: -";
+
+            document.getElementById("result").innerText =
+                "Let's Play!";
+
+            document.getElementById("score").innerText =
+                "You: 0 | Computer: 0 | Draws: 0";
+        }
+    </script>
+
+</body>
+</html>
