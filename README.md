@@ -1,5 +1,3 @@
-# stone-paper--scissor
-a simple stone paper scissor game using c 
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,56 +6,68 @@ a simple stone paper scissor game using c
 int main()
 {
     int user, computer;
+    int playerScore = 0, computerScore = 0;
+    char playAgain;
 
     srand(time(0));
 
-    printf("STONE PAPER SCISSORS GAME\n");
-    printf("-------------------------\n");
-
-    printf("1. Stone\n");
-    printf("2. Paper\n");
-    printf("3. Scissors\n");
-
-    printf("\nEnter your choice: ");
-    scanf("%d", &user);
-
-    computer = rand() % 3 + 1;
-
-    printf("\nYou chose: ");
-    
-    switch(user)
+    do
     {
-        case 1: printf("Stone\n"); break;
-        case 2: printf("Paper\n"); break;
-        case 3: printf("Scissors\n"); break;
-        default:
-            printf("Invalid choice!\n");
-            return 0;
-    }
+        printf("\n--- STONE PAPER SCISSORS ---\n");
+        printf("1. Stone\n");
+        printf("2. Paper\n");
+        printf("3. Scissors\n");
 
-    printf("Computer chose: ");
+        printf("Enter your choice: ");
+        scanf("%d", &user);
 
-    switch(computer)
-    {
-        case 1: printf("Stone\n"); break;
-        case 2: printf("Paper\n"); break;
-        case 3: printf("Scissors\n"); break;
-    }
+        if (user < 1 || user > 3)
+        {
+            printf("Invalid choice! Try again.\n");
+            continue;
+        }
 
-    if(user == computer)
-    {
-        printf("\nMatch Draw!");
-    }
-    else if((user == 1 && computer == 3) ||
-            (user == 2 && computer == 1) ||
-            (user == 3 && computer == 2))
-    {
-        printf("\nYou Win!");
-    }
-    else
-    {
-        printf("\nComputer Wins!");
-    }
+        computer = rand() % 3 + 1;
+
+        printf("Computer choice: ");
+
+        if (computer == 1)
+            printf("Stone\n");
+        else if (computer == 2)
+            printf("Paper\n");
+        else
+            printf("Scissors\n");
+
+        if (user == computer)
+        {
+            printf("Match Draw!\n");
+        }
+        else if ((user == 1 && computer == 3) ||
+                 (user == 2 && computer == 1) ||
+                 (user == 3 && computer == 2))
+        {
+            printf("You Win!\n");
+            playerScore++;
+        }
+        else
+        {
+            printf("Computer Wins!\n");
+            computerScore++;
+        }
+
+        printf("\nYour Score: %d", playerScore);
+        printf("\nComputer Score: %d\n", computerScore);
+
+        printf("\nPlay again? (y/n): ");
+        scanf(" %c", &playAgain);
+
+    } while (playAgain == 'y' || playAgain == 'Y');
+
+    printf("\n--- FINAL SCORE ---\n");
+    printf("Your Score: %d\n", playerScore);
+    printf("Computer Score: %d\n", computerScore);
+
+    printf("\nThanks for playing!\n");
 
     return 0;
 }
