@@ -1,61 +1,229 @@
-srand(time(0));
 
-do
-{
-    printf("\n--- STONE PAPER SCISSORS ---\n");
-    printf("1. Stone\n");
-    printf("2. Paper\n");
-    printf("3. Scissors\n");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stone Paper Scissors Game</title>
 
-    printf("Enter your choice: ");
-    scanf("%d", &user);
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    if (user < 1 || user > 3)
-    {
-        printf("Invalid choice! Try again.\n");
-        continue;
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #141e30, #243b55);
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.game {
+    width: 100%;
+    max-width: 500px;
+    background: rgba(255,255,255,0.1);
+    padding: 35px 20px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.3);
+}
+
+h1 {
+    color: #ffd166;
+    margin-bottom: 12px;
+}
+
+.subtitle {
+    color: #ddd;
+    margin-bottom: 25px;
+}
+
+.scoreboard {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+}
+
+.score {
+    background: rgba(255,255,255,0.12);
+    padding: 15px 25px;
+    border-radius: 12px;
+}
+
+.score h2 {
+    font-size: 35px;
+    color: #ffd166;
+}
+
+.choices {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.choice {
+    font-size: 42px;
+    background: white;
+    border: none;
+    border-radius: 15px;
+    width: 95px;
+    height: 95px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.choice:hover {
+    transform: translateY(-7px) scale(1.05);
+    background: #ffd166;
+}
+
+.choice:focus-visible, button:focus-visible {
+    outline: 3px solid #ffd166;
+    outline-offset: 4px;
+}
+
+.result {
+    min-height: 90px;
+    margin-top: 20px;
+    padding: 18px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 12px;
+}
+
+.result h2 {
+    color: #ffd166;
+    margin-bottom: 10px;
+}
+
+#details {
+    color: #eee;
+}
+
+.reset {
+    margin-top: 25px;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    background: #ffd166;
+    color: #222;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.reset:hover {
+    background: #ffb703;
+}
+
+footer {
+    margin-top: 25px;
+    color: #ccc;
+    font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="game">
+
+    <h1>✊ Stone Paper Scissors ✌️</h1>
+    <p class="subtitle">Choose your move and beat the computer!</p>
+
+    <div class="scoreboard">
+        <div class="score">
+            <p>You</p>
+            <h2 id="userScore">0</h2>
+        </div>
+
+        <div class="score">
+            <p>Computer</p>
+            <h2 id="computerScore">0</h2>
+        </div>
+    </div>
+
+    <h3>Choose Your Move</h3>
+
+    <div class="choices">
+        <button class="choice" onclick="play('stone')" aria-label="Stone">✊</button>
+        <button class="choice" onclick="play('paper')" aria-label="Paper">✋</button>
+        <button class="choice" onclick="play('scissors')" aria-label="Scissors">✌️</button>
+    </div>
+
+    <div class="result" aria-live="polite">
+        <h2 id="message">Let's Play!</h2>
+        <p id="details">Make your first move.</p>
+    </div>
+
+    <button class="reset" onclick="resetGame()">🔄 Reset Game</button>
+
+    <footer>Made with ❤️ using HTML, CSS and JavaScript</footer>
+
+</div>
+
+<script>
+let userScore = 0;
+let computerScore = 0;
+
+function play(userChoice) {
+
+    const choices = ['stone', 'paper', 'scissors'];
+
+    const computerChoice =
+        choices[Math.floor(Math.random() * 3)];
+
+    let result = '';
+
+    if (userChoice === computerChoice) {
+        result = "It's a Draw! 🤝";
     }
 
-    computer = rand() % 3 + 1;
-
-    printf("Computer choice: ");
-
-    if (computer == 1)
-        printf("Stone\n");
-    else if (computer == 2)
-        printf("Paper\n");
-    else
-        printf("Scissors\n");
-
-    if (user == computer)
-    {
-        printf("Match Draw!\n");
+    else if (
+        (userChoice === 'stone' && computerChoice === 'scissors') ||
+        (userChoice === 'paper' && computerChoice === 'stone') ||
+        (userChoice === 'scissors' && computerChoice === 'paper')
+    ) {
+        result = "You Win! 🎉";
+        userScore++;
     }
-    else if ((user == 1 && computer == 3) ||
-             (user == 2 && computer == 1) ||
-             (user == 3 && computer == 2))
-    {
-        printf("You Win!\n");
-        playerScore++;
-    }
-    else
-    {
-        printf("Computer Wins!\n");
+
+    else {
+        result = "Computer Wins! 🤖";
         computerScore++;
     }
 
-    printf("\nYour Score: %d", playerScore);
-    printf("\nComputer Score: %d\n", computerScore);
+    document.getElementById('userScore').innerText = userScore;
 
-    printf("\nPlay again? (y/n): ");
-    scanf(" %c", &playAgain);
+    document.getElementById('computerScore').innerText = computerScore;
 
-} while (playAgain == 'y' || playAgain == 'Y');
+    document.getElementById('message').innerText = result;
 
-printf("\n--- FINAL SCORE ---\n");
-printf("Your Score: %d\n", playerScore);
-printf("Computer Score: %d\n", computerScore);
+    document.getElementById('details').innerText =
+        "You chose " + userChoice.toUpperCase() +
+        " | Computer chose " + computerChoice.toUpperCase();
+}
 
-printf("\nThanks for playing!\n");
+function resetGame() {
 
-return 0;
+    userScore = 0;
+    computerScore = 0;
+
+    document.getElementById('userScore').innerText = 0;
+    document.getElementById('computerScore').innerText = 0;
+
+    document.getElementById('message').innerText = "Let's Play!";
+
+    document.getElementById('details').innerText =
+        "Make your first move.";
+}
+</script>
+
+</body>
+</html>
