@@ -1,22 +1,33 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Stone Paper Scissors</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Play Stone Paper Scissors against the computer!">
+    <title>Stone Paper Scissors Game</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             background: linear-gradient(135deg, #141e30, #243b55);
             color: white;
             font-family: Arial, sans-serif;
             text-align: center;
             padding: 40px 15px;
+            min-height: 100vh;
+            margin: 0;
         }
 
         .game {
             background: white;
             color: #222;
             max-width: 450px;
-            margin: auto;
+            width: 100%;
+            margin: 30px auto;
             padding: 30px 20px;
             border-radius: 20px;
             box-shadow: 0 5px 25px #0005;
@@ -42,6 +53,7 @@
             background: #243b55;
             color: white;
             cursor: pointer;
+            transition: 0.2s;
         }
 
         button:hover {
@@ -63,6 +75,17 @@
         .reset {
             background: #e74c3c;
         }
+
+        .reset:hover {
+            background: #c0392b;
+        }
+
+        @media (max-width: 400px) {
+            button {
+                font-size: 16px;
+                padding: 12px;
+            }
+        }
     </style>
 </head>
 
@@ -74,14 +97,14 @@
         <p>Choose your move and beat the computer!</p>
 
         <div class="choices">
-            <button onclick="play(1)">✊ Stone</button>
-            <button onclick="play(2)">✋ Paper</button>
-            <button onclick="play(3)">✌️ Scissors</button>
+            <button type="button" onclick="play(1)">✊ Stone</button>
+            <button type="button" onclick="play(2)">✋ Paper</button>
+            <button type="button" onclick="play(3)">✌️ Scissors</button>
         </div>
 
         <h3 id="moves">Your move: - | Computer: -</h3>
 
-        <div id="result">Let's Play!</div>
+        <div id="result" aria-live="polite">Let's Play!</div>
 
         <div id="score">
             You: 0 | Computer: 0 | Draws: 0
@@ -89,7 +112,7 @@
 
         <br>
 
-        <button class="reset" onclick="resetGame()">
+        <button type="button" class="reset" onclick="resetGame()">
             Reset Game
         </button>
 
@@ -103,8 +126,7 @@
         const names = ["", "Stone", "Paper", "Scissors"];
 
         function play(user) {
-
-            let computer = Math.floor(Math.random() * 3) + 1;
+            const computer = Math.floor(Math.random() * 3) + 1;
 
             document.getElementById("moves").innerText =
                 "Your move: " + names[user] +
@@ -130,7 +152,10 @@
             }
 
             document.getElementById("result").innerText = result;
+            updateScore();
+        }
 
+        function updateScore() {
             document.getElementById("score").innerText =
                 "You: " + playerScore +
                 " | Computer: " + computerScore +
@@ -148,12 +173,9 @@
             document.getElementById("result").innerText =
                 "Let's Play!";
 
-            document.getElementById("score").innerText =
-                "You: 0 | Computer: 0 | Draws: 0";
+            updateScore();
         }
     </script>
 
 </body>
 </html>
-
-
